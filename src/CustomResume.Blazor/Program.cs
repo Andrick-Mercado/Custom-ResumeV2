@@ -8,15 +8,13 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddMudServices();
-
-//var websiteRepo = new WebsiteRepo(new DatabaseService(new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) }));
-//await websiteRepo.InitializeAsync();
-//builder.Services.AddSingleton<IWebsiteRepo>(websiteRepo);
-//builder.Services.AddSingleton<IProfileService, ProfileService>();
-//builder.Services.AddBlazoredLocalStorageAsSingleton();
-
-await builder.Services.AddCustomResumeBlazorServicesAsync(builder.HostEnvironment.BaseAddress);
+await ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
 
 await builder.Build().RunAsync();
+
+static async Task ConfigureServices(IServiceCollection services, string baseAddress)
+{
+    services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(baseAddress) });
+    services.AddMudServices();
+    await services.AddCustomResumeBlazorServicesAsync(baseAddress);
+}
