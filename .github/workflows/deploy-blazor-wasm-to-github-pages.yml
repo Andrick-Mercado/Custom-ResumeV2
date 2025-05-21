@@ -19,6 +19,11 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18.15.0'
+
       # Install wasm-tools
       - name: Install wasm-tools
         run: dotnet workload install wasm-tools
