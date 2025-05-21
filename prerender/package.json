@@ -1,10 +1,9 @@
 {
     "reactSnap": {
         "source": "output/wwwroot",
-        "include": ["/"],
         "minifyHtml": {
-            "collapseWhitespace": true,
-            "removeComments": true
+            "collapseWhitespace": false,
+            "removeComments": false
         },
         "puppeteerArgs": ["--no-sandbox", "--disable-setuid-sandbox"]
     }
