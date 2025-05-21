@@ -12,9 +12,12 @@ public class WebDatabaseService : IDatabaseService
         _httpClient = httpClient;
     }
 
-    public async Task<WebsiteDatabaseData> GetWebsiteDatabaseDataAsync()
+    public WebsiteDatabaseData GetWebsiteDatabaseDataAsync()
     {
-        return await _httpClient.GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json").ConfigureAwait(false)
-               ?? throw new InvalidOperationException();
+        var getWebsiteDatabaseData = _httpClient
+            .GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json")
+            .GetAwaiter().GetResult();
+
+        return getWebsiteDatabaseData ?? throw new InvalidOperationException();
     }
 }

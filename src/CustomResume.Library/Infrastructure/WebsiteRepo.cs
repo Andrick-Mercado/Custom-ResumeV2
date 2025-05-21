@@ -1,6 +1,5 @@
 ﻿using CustomResume.Library.Domain;
 using CustomResume.Library.Infrastructure.Repo;
-using CustomResumeBlazor.Domain;
 
 namespace CustomResume.Library.Infrastructure;
 
@@ -22,30 +21,33 @@ public class WebsiteRepo : IWebsiteRepo
         _databaseService = databaseService;
     }
 
-    public async Task EnsureInitializedAsync()
+    public void EnsureInitializedAsync()
     {
         if (_initialized is false)
         {
-            _websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync().ConfigureAwait(false);
+            _websiteDatabaseData = _databaseService.GetWebsiteDatabaseDataAsync();
             _initialized = true;
         }
     }
 
     public async Task<Configurations> GetConfigurations()
     {
-        await EnsureInitializedAsync();
+        await Task.CompletedTask;
+        EnsureInitializedAsync();
         return _websiteDatabaseData.Configurations;
     }
 
     public async Task<PersonalInformation> GetPersonalInformation()
     {
-        await EnsureInitializedAsync();
+        await Task.CompletedTask;
+        EnsureInitializedAsync();
         return _websiteDatabaseData.PersonalInformation;
     }
 
     public async Task<WebsiteData> GetWebsiteData()
     {
-        await EnsureInitializedAsync();
+        await Task.CompletedTask;
+        EnsureInitializedAsync();
         return _websiteDatabaseData.WebsiteData;
     }
 }

@@ -4,5 +4,5 @@ namespace CustomResume.Library.Infrastructure.Repo;
 
 public interface IDatabaseService
 {
-    Task<WebsiteDatabaseData> GetWebsiteDatabaseDataAsync();
+    WebsiteDatabaseData GetWebsiteDatabaseDataAsync();
 }
