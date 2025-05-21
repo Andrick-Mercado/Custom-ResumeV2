@@ -18,6 +18,6 @@ public class WebDatabaseService : IDatabaseService
             .GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json")
             .GetAwaiter().GetResult();
 
-        return getWebsiteDatabaseData ?? throw new InvalidOperationException();
+        return getWebsiteDatabaseData ?? throw new InvalidOperationException("Failed to load website database data.");
     }
 }
