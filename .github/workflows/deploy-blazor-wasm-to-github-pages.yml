@@ -19,11 +19,6 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18.15.0'
-
       # Install wasm-tools
       - name: Install wasm-tools
         run: dotnet workload install wasm-tools
@@ -33,9 +28,9 @@ jobs:
         run: dotnet publish src/CustomResume.Blazor/CustomResume.Blazor.csproj -c Release -o prerender/output --nologo
 
         # Use NodeJS react-snap utitility to prerender static website
-      - name: prerender Blazor client
-        working-directory: prerender
-        run: npx react-snap
+        #- name: prerender Blazor client
+        # working-directory: prerender
+        #run: npx react-snap
 
       # Extract repo name from GITHUB_REPOSITORY environment variable
       - name: Extract repo name
