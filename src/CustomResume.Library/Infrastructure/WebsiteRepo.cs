@@ -26,7 +26,7 @@ public class WebsiteRepo : IWebsiteRepo
     {
         if (_initialized is false)
         {
-            _websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync();
+            _websiteDatabaseData = await _databaseService.GetWebsiteDatabaseDataAsync().ConfigureAwait(false);
             _initialized = true;
         }
     }

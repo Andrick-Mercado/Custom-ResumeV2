@@ -14,7 +14,7 @@ public class WebDatabaseService : IDatabaseService
 
     public async Task<WebsiteDatabaseData> GetWebsiteDatabaseDataAsync()
     {
-        return await _httpClient.GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json")
+        return await _httpClient.GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json").ConfigureAwait(false)
                ?? throw new InvalidOperationException();
     }
 }

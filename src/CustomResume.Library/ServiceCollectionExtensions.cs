@@ -26,7 +26,7 @@ public static class ServiceCollectionExtensions
     {
         var websiteRepo =
             new WebsiteRepo(new WebDatabaseService(new HttpClient { BaseAddress = new Uri(baseAddress) }));
-        await websiteRepo.EnsureInitializedAsync();
+        await websiteRepo.EnsureInitializedAsync().ConfigureAwait(false);
         services.AddSingleton<IWebsiteRepo>(websiteRepo);
 
         services.AddSingleton<IProfileService, ProfileService>();
