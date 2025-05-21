@@ -1,6 +1,7 @@
 {
     "reactSnap": {
         "source": "output/wwwroot",
+        "include": ["/"],
         "minifyHtml": {
             "collapseWhitespace": true,
             "removeComments": true

@@ -10,50 +10,61 @@ jobs:
     # use ubuntu-latest image to run steps on
     runs-on: ubuntu-latest
     steps:
-    # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v4
+      # uses GitHub's checkout action to checkout code form the master branch
+      - uses: actions/checkout@v4
 
-    # sets up .NET Core SDK 9.x
-    - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 9.0.x
+      # sets up .NET Core SDK 9.x
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 9.0.x
 
-    # Install wasm-tools 
-    - name: Install wasm-tools
-      run: dotnet workload install wasm-tools
+      # Install wasm-tools
+      - name: Install wasm-tools
+        run: dotnet workload install wasm-tools
 
-    # publishes Blazor project to the prerender/output folder
-    - name: Publish .NET Core Project
-      run: dotnet publish src/CustomResume.Blazor/CustomResume.Blazor.csproj -c Release -o prerender/output --nologo
+        # Setup Node.js for react-snap
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-    # Use NodeJS react-snap utitility to prerender static website
-    - name: prerender Blazor client
-      working-directory: prerender
-      run: npx react-snap
+        # Install react-snap globally
+      - name: Install react-snap
+        run: npm install -g react-snap
 
-    # Extract repo name from GITHUB_REPOSITORY environment variable
-    - name: Extract repo name
-      shell: bash
-      run: echo "REPO_NAME=$(echo ${GITHUB_REPOSITORY#*/})" >> $GITHUB_ENV
 
-    # change base tag in all html files to include subfolder
-    - name: Change base tag
-      working-directory: prerender/output/wwwroot
-      run: |
-        find . -name "*.html" | while read htmlFile; do
-            sed -i 's/<base href="\/"/<base href="\/${{ env.REPO_NAME }}\/"/g' $htmlFile
-            sed -i 's/mud-drawer-close-responsive-md-left/mud-drawer-open-responsive-md-left/g' $htmlFile
-            sed -i 's/mud-drawer--closed/mud-drawer--open/g' $htmlFile
-        done
+      # publishes Blazor project to the prerender/output folder
+      - name: Publish .NET Core Project
+        run: dotnet publish src/CustomResume.Blazor/CustomResume.Blazor.csproj -c Release -o prerender/output --nologo  /p:BuildWithStaticFiles=true /p:StaticWebAssetsEnabled=true
 
-    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
-    - name: Add .nojekyll file
-      run: touch prerender/output/wwwroot/.nojekyll
-      
-    - name: Commit wwwroot to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        branch: deployment-branch
-        folder: prerender/output/wwwroot
+        # Use NodeJS react-snap utitility to prerender static website
+      - name: prerender Blazor client
+        working-directory: prerender
+        run: npx react-snap
+
+      # Extract repo name from GITHUB_REPOSITORY environment variable
+      - name: Extract repo name
+        shell: bash
+        run: echo "REPO_NAME=$(echo ${GITHUB_REPOSITORY#*/})" >> $GITHUB_ENV
+
+      # change base tag in all html files to include subfolder
+      - name: Change base tag
+        working-directory: prerender/output/wwwroot
+        run: |
+          find . -name "*.html" | while read htmlFile; do
+              sed -i 's/<base href="\/"/<base href="\/${{ env.REPO_NAME }}\/"/g' $htmlFile
+              sed -i 's/mud-drawer-close-responsive-md-left/mud-drawer-open-responsive-md-left/g' $htmlFile
+              sed -i 's/mud-drawer--closed/mud-drawer--open/g' $htmlFile
+          done
+
+      # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+      - name: Add .nojekyll file
+        run: touch prerender/output/wwwroot/.nojekyll
+
+      - name: Commit wwwroot to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: deployment-branch
+          folder: prerender/output/wwwroot
