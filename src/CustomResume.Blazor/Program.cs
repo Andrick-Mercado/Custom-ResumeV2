@@ -8,13 +8,12 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-await ConfigureServices(builder.Services, builder.HostEnvironment.BaseAddress);
 
 await builder.Build().RunAsync();
 
-static async Task ConfigureServices(IServiceCollection services, string baseAddress)
+static void ConfigureServices(IServiceCollection services, string baseAddress)
 {
     services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(baseAddress) });
     services.AddMudServices();
-    await services.AddCustomResumeBlazorServicesAsync(baseAddress);
+    services.AddCustomResumeBlazorServicesAsync(baseAddress).GetAwaiter().GetResult();
 }
