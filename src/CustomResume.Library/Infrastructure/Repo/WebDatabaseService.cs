@@ -14,10 +14,19 @@ public class WebDatabaseService : IDatabaseService
 
     public WebsiteDatabaseData GetWebsiteDatabaseDataAsync()
     {
-        var getWebsiteDatabaseData = _httpClient
-            .GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json")
-            .GetAwaiter().GetResult();
+        WebsiteDatabaseData websiteDatabaseData;
+        try
+        {
+            websiteDatabaseData = _httpClient
+                .GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json")
+                .GetAwaiter().GetResult();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw new InvalidOperationException("Failed to load website database data.");
+        }
 
-        return getWebsiteDatabaseData ?? throw new InvalidOperationException("Failed to load website database data.");
+        return websiteDatabaseData ?? throw new InvalidOperationException("Failed to load website database data.");
     }
 }
