@@ -13,11 +13,11 @@ public partial class SideBarPage
     private WebsiteData websiteData;
     private IOrderedEnumerable<OtherPages> sortedOtherPages;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (hasLoaded) return;
 
-        websiteData = await WebsiteRepo.GetWebsiteData();
+        websiteData =  WebsiteRepo.GetWebsiteData();
         hasLoaded = websiteData is not null;
         sortedOtherPages = websiteData?.OtherPages?.OrderBy(x => x.SortOrder);
         StateHasChanged();

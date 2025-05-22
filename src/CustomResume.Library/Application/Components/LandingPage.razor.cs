@@ -12,11 +12,11 @@ public partial class LandingPage
     private WebsiteData _websiteDatabaseData;
     private MainPage _mainPage;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (_hasLoaded) return;
 
-        _websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
+        _websiteDatabaseData =  WebsiteRepo.GetWebsiteData();
         _hasLoaded = _websiteDatabaseData is not null;
         _mainPage = _websiteDatabaseData?.MainPage;
         StateHasChanged();

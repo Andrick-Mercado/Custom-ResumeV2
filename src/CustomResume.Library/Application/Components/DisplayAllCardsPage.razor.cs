@@ -15,11 +15,13 @@ public partial class DisplayAllCardsPage
     private WebsiteData _websiteDatabaseData;
     private OtherPages _currentPage;
 
-    protected override async Task OnInitializedAsync()
-    {
-        if (_hasLoaded && ClientRouteName == _currentPage?.Endpoint) return;
 
-        _websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_hasLoaded && ClientRouteName == _currentPage?.Endpoint)
+            return;
+
+        _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
         _currentPage = _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
 
         _hasLoaded = _currentPage is not null;
@@ -30,7 +32,7 @@ public partial class DisplayAllCardsPage
     {
         if (_websiteDatabaseData is null)
         {
-            _websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
+            _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
             _currentPage = _websiteDatabaseData.OtherPages.FirstOrDefault(x => x.Endpoint == ClientRouteName);
         }
         else if (_currentPage is not null && ClientRouteName != _currentPage.Endpoint)
@@ -49,21 +51,5 @@ public partial class DisplayAllCardsPage
     private IEnumerable<IGrouping<string, Card>> GetCardsGroupedByCardName()
     {
         return _currentPage?.Cards.GroupBy(x => x.Name) ?? Array.Empty<IGrouping<string, Card>>();
-    }
-
-    private Card GetFirstCard()
-    {
-        return _currentPage?.Cards.FirstOrDefault() ?? new Card();
-    }
-
-    private async Task<IBrowserFile> UploadFileAsync(IBrowserFile file)
-    {
-        var fileName = file.Name;
-        var fileSize = file.Size;
-        var fileContentType = file.ContentType;
-
-        // Do something with the file, like saving it or processing it
-        // For now, just return the file
-        return await Task.FromResult(file);
     }
 }

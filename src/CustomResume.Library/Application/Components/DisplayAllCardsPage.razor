@@ -49,20 +49,3 @@ else if (_currentPage?.PageFormat is CardType.Skill)
         </MudItem>
     }
 }
-
-@if (AppInfoRouter?.IsThisMauiApp is true)
-{
-    <MudDivider DividerType="DividerType.FullWidth"></MudDivider>
-
-    <MudText Typo="Typo.h3" GutterBottom="true" Class="d-flex justify-center">Upload Image</MudText>
-
-    <MudFileUpload T="IBrowserFile" Accept=".png, .jpg" FilesChanged="UploadFileAsync">
-        <ActivatorContent>
-            <MudButton Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       StartIcon="@Icons.Material.Filled.Image">
-                Upload Single Image
-            </MudButton>
-        </ActivatorContent>
-    </MudFileUpload>
-}

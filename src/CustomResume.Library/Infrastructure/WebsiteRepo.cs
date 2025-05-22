@@ -5,9 +5,9 @@ namespace CustomResume.Library.Infrastructure;
 
 public interface IWebsiteRepo
 {
-    Task<Configurations> GetConfigurations();
-    Task<PersonalInformation> GetPersonalInformation();
-    Task<WebsiteData> GetWebsiteData();
+    Configurations GetConfigurations();
+    PersonalInformation GetPersonalInformation();
+    WebsiteData GetWebsiteData();
 }
 
 public class WebsiteRepo : IWebsiteRepo
@@ -30,23 +30,20 @@ public class WebsiteRepo : IWebsiteRepo
         }
     }
 
-    public async Task<Configurations> GetConfigurations()
+    public Configurations GetConfigurations()
     {
-        await Task.CompletedTask;
         EnsureInitializedAsync();
         return _websiteDatabaseData.Configurations;
     }
 
-    public async Task<PersonalInformation> GetPersonalInformation()
+    public PersonalInformation GetPersonalInformation()
     {
-        await Task.CompletedTask;
         EnsureInitializedAsync();
         return _websiteDatabaseData.PersonalInformation;
     }
 
-    public async Task<WebsiteData> GetWebsiteData()
+    public WebsiteData GetWebsiteData()
     {
-        await Task.CompletedTask;
         EnsureInitializedAsync();
         return _websiteDatabaseData.WebsiteData;
     }

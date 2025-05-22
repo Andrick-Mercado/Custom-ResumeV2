@@ -15,9 +15,9 @@ public partial class MainLayoutPage
         _preferences = await ProfileService.GetPreferences();
         _isDarkCurrentTheme = _preferences.DarkMode;
 
-        _websiteDatabaseData = await WebsiteRepo.GetWebsiteData();
-        _configurations = await WebsiteRepo.GetConfigurations();
-        _personalInformation = await WebsiteRepo.GetPersonalInformation();
+        _websiteDatabaseData = WebsiteRepo.GetWebsiteData();
+        _configurations = WebsiteRepo.GetConfigurations();
+        _personalInformation = WebsiteRepo.GetPersonalInformation();
         _mainPage = _websiteDatabaseData.MainPage;
 
         _hasLoaded = true;
