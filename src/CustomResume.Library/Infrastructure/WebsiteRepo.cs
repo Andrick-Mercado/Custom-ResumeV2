@@ -23,11 +23,8 @@ public class WebsiteRepo : IWebsiteRepo
 
     public void EnsureInitializedAsync()
     {
-        if (_initialized is false)
-        {
             _websiteDatabaseData = _databaseService.GetWebsiteDatabaseDataAsync();
             _initialized = true;
-        }
     }
 
     public Configurations GetConfigurations()
