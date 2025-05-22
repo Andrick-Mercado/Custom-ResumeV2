@@ -17,6 +17,9 @@ public class WebDatabaseService : IDatabaseService
         WebsiteDatabaseData websiteDatabaseData;
         try
         {
+            int milliseconds = 2000;
+            Thread.Sleep(milliseconds);
+
             websiteDatabaseData = _httpClient
                 .GetFromJsonAsync<WebsiteDatabaseData>("database/websiteData.json")
                 .GetAwaiter().GetResult();
