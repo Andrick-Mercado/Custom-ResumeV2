@@ -23,9 +23,9 @@ jobs:
       - name: Install wasm-tools
         run: dotnet workload install wasm-tools
 
-      # publishes Blazor project to the prerender/output folder
+      # publishes Blazor project to the prerender/output folder   -p:BlazorWasmPrerenderingKeepServer=true
       - name: Publish .NET Core Project
-        run: dotnet publish src/CustomResume.Blazor/CustomResume.Blazor.csproj -c Release -o prerender/output --nologo -p:BlazorWasmPrerenderingKeepServer=true
+        run: dotnet publish src/CustomResume.Blazor/CustomResume.Blazor.csproj -c Release -o prerender/output --nologo
 
         # Use NodeJS react-snap utitility to prerender static website
         #- name: prerender Blazor client
