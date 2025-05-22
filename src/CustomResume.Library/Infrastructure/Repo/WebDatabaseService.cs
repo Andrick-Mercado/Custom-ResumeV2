@@ -24,7 +24,7 @@ public class WebDatabaseService : IDatabaseService
         catch (Exception e)
         {
             Console.WriteLine(e);
-            throw new InvalidOperationException("Failed to load website database data.");
+            throw new InvalidOperationException($"BaseAddress: {_httpClient?.BaseAddress}  Failed to load website database data.");
         }
 
         return websiteDatabaseData ?? throw new InvalidOperationException("Failed to load website database data.");
