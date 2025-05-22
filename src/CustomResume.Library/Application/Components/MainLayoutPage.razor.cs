@@ -7,8 +7,11 @@ namespace CustomResume.Library.Application.Components;
 
 public partial class MainLayoutPage
 {
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender is false)
+            return;
+
         _preferences = await ProfileService.GetPreferences();
         _isDarkCurrentTheme = _preferences.DarkMode;
 
